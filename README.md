@@ -98,7 +98,7 @@ Use PostgreSQL 9.1 or later.
 
 ### Replacement of pgsql RA (both nodes)
 ```
-#wget https://raw.github.com/ClusterLabs/resource-agents/a6f4ddf76cb4bbc1b3df4c9b6632a6351b63c19e/heartbeat/pgsql
+#wget https://raw.github.com/ClusterLabs/resource-agents/master/heartbeat/pgsql
 #cp pgsql /usr/lib/ocf/resource.d/heartbeat/
 #chmod 755 /usr/lib/ocf/resource.d/heartbeat/pgsql
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
