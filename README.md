@@ -132,11 +132,6 @@ $mkdir -m 700 /var/lib/pgsql/11/pg_archive
 ```
 
 ### Edit postgresql.conf.
-
-- Point of postgresql.conf setting
-- If there is "synchronous_standby_names" parameter, please delete it.
-- Fixed IP cannot be written in listen_address. 
-
 >The main set part as follows. Please refer to the manual of PostgreSQL for other parameter.
 Check the starting  with the PostgreSQL unit, and the replication is possible.
 
