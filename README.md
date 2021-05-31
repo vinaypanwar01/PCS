@@ -77,7 +77,7 @@ In this documents, we use Centos 7.
 #chmod 755 /usr/lib/ocf/resource.d/heartbeat/pgsql
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
 
-###### Replaced below lines (line no. 16)
+###### Replace below lines (line no. 16)
 #Initialization:
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
 
@@ -425,11 +425,11 @@ Migration Summary:
 * Node node1:
 * Node node2:
 
-###### About node attributes
+##### About node attributes
 The RA defines the following states as a node attribute value of Pacemaker. 
 attribute can be seen in "crm_mon -A". 
 
-=== pgsql-status ===
+###### pgsql-status
 A present state of PostgreSQL is displayed by the attribute value to which PRI or either HS node is displayed. 
 
 * STOP
@@ -445,7 +445,7 @@ A present state of PostgreSQL is displayed by the attribute value to which PRI o
 * PRI
 ** It operates by PRI.
 
-=== pgsql-data-status ===
+###### pgsql-data-status
 The transitional state of data is displayed. This state remains after stopping pacemaker.
 When starting pacemaker next time, this state is used to judge whether my data is old or not.
 
