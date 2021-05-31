@@ -282,7 +282,7 @@ logging {
 
 </details>
 
-<details><summary><h2 align="Left">Check PCS status</h2></summary>
+<details><summary><h2 align="Left">Check PCS Status & 🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂)</h2></summary>
 
 ```
 #crm_mon -Afr -1
@@ -310,9 +310,7 @@ Online: [ node1 node2 ]
 - Node node2:
 ```
 
-</details>
-
-<details><summary><h2 align="Left">🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂)</h2></summary>
+### Make Configuration file (config.pcs)
 
 >In this sample configuration, "vip-master" means virtual IP1 and "vip-rep" means virtual IP2,and we use restart_on_promote="true" to explain operations simply.
 If you use false,you should start pacemaker on node1 only and laod configuration.After that you should copy data from node1 to node2 and start pacemaker on node2 to align  Timeline ID.
