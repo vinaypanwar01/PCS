@@ -104,12 +104,15 @@ Use PostgreSQL 9.1 or later.
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
 ```
 
-### Replace below lines (line no. 16)
+##### Replace below lines (line no. 16)
 ```
 #Initialization:
 
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
-
+	
+```
+	
+```	
 ###### with 
 #Initialization:
 OCF_ROOT=/usr/lib/ocf
