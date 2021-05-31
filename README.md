@@ -121,7 +121,7 @@ OCF_ROOT=/usr/lib/ocf
 
 ##### Check PostgreSQL path in pgsql(line no. 47) 
 ```
-Default is OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
+Default value: OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
 ```
 
@@ -136,8 +136,6 @@ $mkdir -m 700 /var/lib/pgsql/11/pg_archive
 - Point of postgresql.conf setting
 - If there is "synchronous_standby_names" parameter, please delete it.
 - Fixed IP cannot be written in listen_address. 
-- Replication_timeout is detection time for the replication cuts it, and wal_receiver_status_interval is an interval when HS tries connecting to PRI. To shorten    detection, you should set this value to small.
-- When using rep_mode=sync, RA adds "include" into postgresql.conf to switch replication mode. If you want to switch to rep_mode=async from sync, you need to delete it manually.
 
 >The main set part as follows. Please refer to the manual of PostgreSQL for other parameter.
 Check the starting  with the PostgreSQL unit, and the replication is possible.
