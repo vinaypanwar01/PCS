@@ -81,7 +81,7 @@ Use PostgreSQL 9.1 or later.
 
 ### Configure Yum Repo
 ```
-rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+#rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 
 ```
 
@@ -93,7 +93,7 @@ rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-lat
 
 ### Initialize Database
 ```
-/usr/pgsql-11/bin/postgresql-11-setup initdb
+#/usr/pgsql-11/bin/postgresql-11-setup initdb
 ```
 
 ### Replacement of pgsql RA (both nodes)
