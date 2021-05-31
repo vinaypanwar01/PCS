@@ -165,10 +165,11 @@ host    replication     all     192.168.0.0/16      trust
  
 ### Start PostgreSQL on node1
 ```
-
+#su - postgres
 $ pg_ctl -D /var/lib/pgsql/11/data start
 ```
 
+<details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
 ### PostgreSQL (node2 only)
 
 - 𝙲𝚘𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
@@ -188,14 +189,13 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  ```
  </details>
  
- <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
-
+	
 ### Start PostgreSQL on node2
 ```
 $ pg_ctl -D /var/lib/pgsql/11/data/ start
  
 ```
-
+<details><summary><h2 align="Left">Verify Replication on node 1</h2></summary>
 ### Confirm PostgreSQL replication success (node1 only)
 ```
 #su - postgres
@@ -208,13 +208,14 @@ $ pg_ctl -D /var/lib/pgsql/11/data/ start
  |192.168.2.2| sync |
  
  
-
+<details><summary><h2 align="Left">Stop Postgresql on both nodes</h2></summary>
 ### Stop PostgreSQL (both nodes)
 ```
  $ pg_ctl -D /var/lib/pgsql/11/data stop
  $ exit
  ```
 
+<details><summary><h2 align="Left">Configure & Start Corosync on both nodes</h2></summary>
 ### Corosync (both nodes)
 ```
 Create /etc/corosync/corosync.conf
@@ -251,6 +252,7 @@ logging {
 >You can see this log in /var/log/messages when you succeed in starting corosync.
  Starting Corosync Cluster Engine (corosync): [  OK  ]
 
+<details><summary><h2 align="Left">Start Pacemaker on both nodes</h2></summary>
 ### Pacemaker (both nodes)
 - Clear current settings if it exists.
 ```
@@ -260,14 +262,14 @@ logging {
 ```
 #systemctl start pacemaker.service
 ```
-
+<details><summary><h2 align="Left">Start pcsd service on both nodes</h2></summary>
 ### Start and enable pcsd service
 ```
 #systemctl enable pcsd.service
 #systemctl start pcsd.service
 
 ```
-
+<details><summary><h2 align="Left">Check PCS status</h2></summary>
 ### Check status
 ```
 #crm_mon -Afr -1
@@ -295,7 +297,7 @@ Online: [ node1 node2 ]
 ```
 </details>
 
-<details><summary><h2 align="Left">🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂) 🅵🅾🆁 🅿🅲🆂 🅲🅾🅼🅼🅰🅽🅳</h2></summary>
+<details><summary><h2 align="Left">🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂)</h2></summary>
 
 >In this sample configuration, "vip-master" means virtual IP1 and "vip-rep" means virtual IP2,and we use restart_on_promote="true" to explain operations simply.
 If you use false,you should start pacemaker on node1 only and laod configuration.After that you should copy data from node1 to node2 and start pacemaker on node2 to align  Timeline ID.
@@ -311,7 +313,7 @@ pcs -f pgsql_cfg resource defaults migration-threshold="1"
 
 pcs -f pgsql_cfg resource create vip-master IPaddr2 \
    ip="192.168.0.3" \
-   nic="ens9" \
+   nic="eth0" \
    cidr_netmask="24" \
    op start   timeout="60s" interval="0s"  on-fail="restart" \
    op monitor timeout="60s" interval="10s" on-fail="restart" \
@@ -319,7 +321,7 @@ pcs -f pgsql_cfg resource create vip-master IPaddr2 \
 
 pcs -f pgsql_cfg resource create vip-rep IPaddr2 \
    ip="192.168.2.3" \
-   nic="ens11" \
+   nic="eth2" \
    cidr_netmask="24" \
    meta migration-threshold="0" \
    op start   timeout="60s" interval="0s"  on-fail="stop" \
