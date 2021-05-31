@@ -423,7 +423,7 @@ Full list of resources:
 
 </details>
 
-<details><summary><h3 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
+<details><summary><h2 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
 
 ```
  #systemctl enable corosync.service
