@@ -193,10 +193,9 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  $ pg_ctl -D /var/lib/pgsql/11/data/ start
 ```
 
-</details>
  
 	
-<details><summary><h2 align="Left">Confirm PostgreSQL replication success (node1 only)</h2></summary>
+### Confirm PostgreSQL replication success (node1 only)
 
 ```
 #su - postgres
@@ -209,9 +208,7 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  | client_addr | sync_state|
  |192.168.2.2| sync |
  
-</details>
-
-<details><summary><h2 align="Left">Stop Postgresql on both nodes</h2></summary>
+### Stop Postgresql on both nodes
 
 ```
  $ pg_ctl -D /var/lib/pgsql/11/data stop
