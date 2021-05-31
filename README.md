@@ -423,7 +423,7 @@ Full list of resources:
 
 </deatils>
 
-<details><summary><h2 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
+<details><summary><h3 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
 
 ```
  #systemctl enable corosync.service
@@ -464,13 +464,13 @@ Full list of resources:
 Node Attributes:
 - Node node1:
     + master-pgsql                      : -INFINITY 
-    + pgsql-data-status                 : LATEST    
+    + pgsql-data-status                 : DISCONNECT    
     + pgsql-status                      : STOP      
 - Node node2:
-    + master-pgsql                      : 100       
-    + pgsql-data-status                 : STREAMING|SYNC
+    + master-pgsql                      : 1000       
+    + pgsql-data-status                 : LATEST
     + pgsql-master-baseline             : 0000000006017680
-    + pgsql-status                      : HS:alone  
+    + pgsql-status                      : PRI  
 
 Migration Summary:
 - Node node2:
