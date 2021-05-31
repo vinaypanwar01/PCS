@@ -103,8 +103,7 @@ Use PostgreSQL 9.1 or later.
 #chmod 755 /usr/lib/ocf/resource.d/heartbeat/pgsql
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
 ```
-
-##### Replace below lines (line no. 16)
+##### Replace below lines in pgsql(line no. 16)
 ```
 #Initialization:
 
@@ -120,7 +119,7 @@ OCF_ROOT=/usr/lib/ocf
 
 ```
 
-### Check PostgreSQL path in line no. 47
+##### Check PostgreSQL path in pgsql(line no. 47) 
 ```
 Default is OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
