@@ -1,90 +1,113 @@
-# PgSQL Replicated Cluster
+---
+![Keenable](https://user-images.githubusercontent.com/67622286/115836356-02ac4b80-a435-11eb-854f-fa32663ccd6a.png)
+---
+---
+# ℙ𝕘𝕊ℚ𝕃 ℝ𝕖𝕡𝕝𝕚𝕔𝕒𝕥𝕖𝕕 ℂ𝕝𝕦𝕤𝕥𝕖𝕣
+---
+## ʜᴏᴡ ᴛᴏ ɪɴꜱᴛᴀʟʟ ᴀ 2-ɴᴏᴅᴇ ᴘʀᴏᴍᴏᴛᴀʙʟᴇ (ꜱɪɴɢʟᴇ-ᴍᴀꜱᴛᴇʀ) ᴄʟᴜꜱᴛᴇʀ ᴏɴ ᴄᴇɴᴛᴏꜱ 7 ᴜꜱɪɴɢ ᴘᴏꜱᴛɢʀᴇꜱQʟ-11 ꜱʏɴᴄʜʀᴏɴᴏᴜꜱ ꜱᴛʀᴇᴀᴍɪɴɢ ʀᴇᴘʟɪᴄᴀᴛɪᴏɴ.
+---
+<details><summary><h2 align="Left">🅿🆁🅴🆁🅴🆀🆄🅸🆂🅸🆃🅴</h2></summary>
 
-#### How to install a 2-node promotable (single-master) cluster on Centos 7 using PostgreSQL-11 synchronous streaming replication.
-
-##### Software version
+### Software version
+```
 We developed pgsql RA using pacemaker 1.1.23 with heartbeat stack and resource-agents 4.1.1.
 
-##### Network Topology
-It's recommended that LANs(for service, pacemaker, replication) are separated and redundant.
-But we use these topology in this document to explain simply.
+```
 
-* node1
-** eth0 : 192.168.0.1 : LAN for service
-** eth1 : 192.168.1.1 : LAN for Pacemaker
-** eth2 : 192.168.2.1 : LAN for replication
+### Network Topology
 
-* node2
-** eth0 : 192.168.0.2 : LAN for service
-** eth1 : 192.168.1.2 : LAN for Pacemaker
-** eth2 : 192.168.2.2 : LAN for replication
+- It's recommended that LANs(for service, pacemaker, replication) are separated and redundant.But we use these topology in this document to explain simply.
+```
 
-###### virtual IP (vip)
-* virtual IP1 : 192.168.0.3 : vip for eth0 (DB client connects this IP to access PostgreSQL(Master))
-* virtual IP2 : 192.168.2.3 : vip for eth2 (replica connects this IP to replicate)
+𝚗𝚘𝚍𝚎𝟷
+- eth0 : 192.168.0.1 : LAN for service
+- eth1 : 192.168.1.1 : LAN for Pacemaker
+- eth2 : 192.168.2.1 : LAN for replication
 
+𝚗𝚘𝚍𝚎𝟸
+- eth0 : 192.168.0.2 : LAN for service
+- eth1 : 192.168.1.2 : LAN for Pacemaker
+- eth2 : 192.168.2.2 : LAN for replication
 
-###### PostgreSQL
+```
+### virtual IP (vip)
+```
+- virtual IP1 : 192.168.0.3 : vip for eth0 (DB client connects this IP to access PostgreSQL(Master))
+- virtual IP2 : 192.168.2.3 : vip for eth2 (replica connects this IP to replicate)
+
+```
+
+### PostgreSQL
+```
 Use PostgreSQL 9.1 or later.
 
-###### Parameters of pgsql RA
-The following parameters are added for replication.
+```
 
-* rep_mode
-** choice from async or sync to use replication."async" is used for async mode only, "sync" is used for switching between sync mode and async mode.The following parameter node_list master_ip, and restore_command is necessary at async or sync modes(*).
-* node_list(*)
-** The list of PRI and HS node names. Specifies a space-separated list of all node name (result of the uname -n command).
-* master_ip(*)
-** HS connects to this IP. It equals virtual IP2 in this documents.
-* restore_command(*)
-** restore_command specified in recovery.conf file when starting with HS.
-* repuser
-** The user of replication which HS connects to PRI. Default is "postgres". Please use .pgpass file to set password.
-* primary_conninfo_opt 
-** RA generates recovery.conf file to start PostgreSQL as HS. host,port,user and application name of primary_conninfo are automatically set by RA. If you would like to set some additional parameters, you can specify them here.
-* tmpdir
-** the rep_mode_conf and xlog_note.* and PGSQL.lock files are created in this directory. Default is /var/lib/pgsql/tmp directory. If the directory doesn't exist, RA makes it automatically.
-* xlog_check_count
-** The count of cheking last_xlog_replay_location or last_xlog_receive_location is specified to compare data. Default is 3(times). It is counted at monitor interval.
-* stop_escalate_in_slave
-** Number of shutdown retries (using -m fast) before resorting to -m immediate in replica state. In Master sate, you can use "stop_escalate" which is provided since early times.
-* restart_on_promote
-** RA restarts PostgreSQL on promote instead of promote to prevent from increasing Timeline ID of PostgreSQL since HS can't connect PRI if Timeline ID is different. Default is false and you should copy data from PRI to align Timeline ID after promoting.
+### Parameters of pgsql RA
 
-##### Installation
-In this documents, we use Centos 7.
+>The following parameters are added for replication:
+<p style='text-align: justify;'>
+	
+- **rep_mode** - Choice from async or sync to use replication."async" is used for async mode only, "sync" is used for switching between sync mode and async mode.The following parameter node_list master_ip, and restore_command is necessary at async or sync modes(*).
+- **node_list(*)** - The list of PRI and HS node names. Specifies a space-separated list of all node name (result of the uname -n command).
+- **master_ip(*)** - HS connects to this IP. It equals virtual IP2 in this documents.
+- **restore_command(*)** - restore_command specified in recovery.conf file when starting with HS.
+- **repuser** - The user of replication which HS connects to PRI. Default is "postgres". Please use .pgpass file to set password.
+- **primary_conninfo_opt** - RA generates recovery.conf file to start PostgreSQL as HS. host,port,user and application name of primary_conninfo are automatically set by RA. If you would like to set some additional parameters, you can specify them here.
+- **tmpdir** - the rep_mode_conf and xlog_note.* and PGSQL.lock files are created in this directory. Default is /var/lib/pgsql/tmp directory. If the directory doesn't exist, RA makes it automatically.
+- **xlog_check_count** - The count of cheking last_xlog_replay_location or last_xlog_receive_location is specified to compare data. Default is 3(times). It is counted at monitor interval.
+- **stop_escalate_in_slave** - Number of shutdown retries (using -m fast) before resorting to -m immediate in replica state. In Master sate, you can use "stop_escalate" which is provided since early times.
+- **restart_on_promote** - RA restarts PostgreSQL on promote instead of promote to prevent from increasing Timeline ID of PostgreSQL since HS can't connect PRI if Timeline ID is different. Default is false and you should copy data from PRI to align Timeline ID after promoting.
+</p>
 
+</details>
 
-##### OS (Centos 7) (both nodes)
-* disable selinux
-** edit /etc/selinux/config
-* disable firewall(iptables)
-** systemctl stop firewalld.service
-** systemctl disable firewalld.service
-* set node name "node1" and "node2". 
-** edit /etc/sysconfig/network
-* stop and disable NetworkManager and set up IPs as above.
-** systemctl stop NetworkManager.service 
-** systemctl disable NetworkManager.service 
-** edit /etc/sysconfig/network-scripts/ifcfg-ethX
+<details><summary><h2 align="Left">🅸🅽🆂🆃🅰🅻🅻🅰🆃🅸🅾🅽</h2></summary>
+ 
+<h2>𝙸𝚗 𝚝𝚑𝚒𝚜 𝚍𝚘𝚌𝚞𝚖𝚎𝚗𝚝𝚜, 𝚠𝚎 𝚞𝚜𝚎 𝙲𝚎𝚗𝚝𝚘𝚜 𝟽</h2>
 
-##### Configure Yum Repo
+### OS (Centos 7) (both nodes)
+- disable selinux
+- edit /etc/selinux/config
+- disable firewall(iptables)
+- systemctl stop firewalld.service
+- systemctl disable firewalld.service
+- set node name "node1" and "node2". 
+- edit /etc/sysconfig/network
+- stop and disable NetworkManager and set up IPs as above.
+- systemctl stop NetworkManager.service 
+- systemctl disable NetworkManager.service 
+- edit /etc/sysconfig/network-scripts/ifcfg-ethX
+
+### Configure Yum Repo
+```
 rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 
-##### Packages (both nodes)
+```
+
+### Packages (both nodes)
+```
 #yum -y install postgresql11-server pacemaker corosync pcs
 
-###### Initialize Database
-/usr/pgsql-11/bin/postgresql-11-setup initdb
+```
 
-##### Replacement of pgsql RA (both nodes)
-#wget https://raw.github.com/ClusterLabs/resource-agents/master/heartbeat/pgsql
+### Initialize Database
+```
+/usr/pgsql-11/bin/postgresql-11-setup initdb
+```
+
+### Replacement of pgsql RA (both nodes)
+```
+#wget https://raw.github.com/ClusterLabs/resource-agents/a6f4ddf76cb4bbc1b3df4c9b6632a6351b63c19e/heartbeat/pgsql
 #cp pgsql /usr/lib/ocf/resource.d/heartbeat/
 #chmod 755 /usr/lib/ocf/resource.d/heartbeat/pgsql
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
+```
 
-###### Replace below lines (line no. 16)
+### Replace below lines (line no. 16)
+```
 #Initialization:
+
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
 
 ###### with 
@@ -92,26 +115,32 @@ rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-lat
 OCF_ROOT=/usr/lib/ocf
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
 
-###### Check PostgreSQL path in line no. 47
+```
+
+### Check PostgreSQL path in line no. 47
+```
 Default is OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
+```
 
-
-###### PostgreSQL (node1 only)
+### PostgreSQL (node1 only)
+```
 #su - postgres
 $mkdir -m 700 /var/lib/pgsql/11/pg_archive
+```
 
-###### Edit postgresql.conf.
+### Edit postgresql.conf.
 
-* Point of postgresql.conf setting
-** If there is "synchronous_standby_names" parameter, please delete it.
-** Fixed IP cannot be written in listen_address. 
-** Replication_timeout is detection time for the replication cuts it, and wal_receiver_status_interval is an interval when HS tries connecting to PRI. To shorten detection, you should set this value to small.
-** When using rep_mode=sync, RA adds "include" into postgresql.conf to switch replication mode. If you want to switch to rep_mode=async from sync, you need to delete it manually.
+- Point of postgresql.conf setting
+- If there is "synchronous_standby_names" parameter, please delete it.
+- Fixed IP cannot be written in listen_address. 
+- Replication_timeout is detection time for the replication cuts it, and wal_receiver_status_interval is an interval when HS tries connecting to PRI. To shorten    detection, you should set this value to small.
+- When using rep_mode=sync, RA adds "include" into postgresql.conf to switch replication mode. If you want to switch to rep_mode=async from sync, you need to delete it manually.
 
-The main set part as follows. Please refer to the manual of PostgreSQL for other parameter.
+>The main set part as follows. Please refer to the manual of PostgreSQL for other parameter.
 Check the starting  with the PostgreSQL unit, and the replication is possible.
 
+```
 listen_addresses = '*'
 wal_level = hot_standby
 synchronous_commit = on
@@ -126,47 +155,73 @@ max_standby_streaming_delay = -1
 max_standby_archive_delay = -1
 hot_standby_feedback = on
 
-
+```
+```
 Edit pg_hba.conf.
 Be careful. This explanation is not considered about the security.
 host    all             all     127.0.0.1/32        trust
 host    all             all     192.168.0.0/16      trust
 host    replication     all     192.168.0.0/16      trust
 
-###### start PostgreSQL on node1
+```
+</deatils>
+
+<details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴1</h2></summary>
+ 
+### Start PostgreSQL on node1
+```
 
 $ pg_ctl -D /var/lib/pgsql/11/data start
+```
 
-###### PostgreSQL (node2 only)
+### PostgreSQL (node2 only)
 
-###### Copy data from node1 to node2
+- 𝙲𝚘𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
+```
+
  #su - postgres
  $ rm -rf /var/lib/pgsql/11/data/*
  $ pg_basebackup -h 192.168.2.1 -U postgres -D /var/lib/pgsql/11/data -X stream -P
  $ mkdir -m 700 /var/lib/pgsql/11/pg_archive
-
+ ```
+```
 Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  standby_mode = 'on'
  primary_conninfo = 'host=192.168.2.1 port=5432 user=postgres application_name=node2'
  restore_command = 'cp /var/lib/pgsql/11/pg_archive/%f %p'
  recovery_target_timeline = 'latest'
+ ```
+ </details>
+ 
+ <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
 
-###### Start PostgreSQL on node2
+### Start PostgreSQL on node2
+```
+$ pg_ctl -D /var/lib/pgsql/11/data/ start
+ 
+```
 
- $ pg_ctl -D /var/lib/pgsql/11/data/ start
-
-###### Confirm PostgreSQL replication success (node1 only)
+### Confirm PostgreSQL replication success (node1 only)
+```
 #su - postgres
-$ psql -c "select client_addr,sync_state from pg_stat_replication;"
-  client_addr  | sync_state 
----------------+------------
- 192.168.2.2   | sync
+```
+- $ psql -c "select client_addr,sync_state from pg_stat_replication;"
 
-###### Stop PostgreSQL (both nodes)
+|                              |        |         
+| :--------------------------------:|:------------------------------:|      
+ | client_addr | sync_state|
+ |192.168.2.2| sync |
+ 
+ 
+
+### Stop PostgreSQL (both nodes)
+```
  $ pg_ctl -D /var/lib/pgsql/11/data stop
  $ exit
+ ```
 
-###### Corosync (both nodes)
+### Corosync (both nodes)
+```
 Create /etc/corosync/corosync.conf
 quorum {
     provider: corosync_votequorum
@@ -192,28 +247,37 @@ totem {
 logging {
     to_syslog: yes
 }
-
-###### Start corosync
+```
+### Start corosync
+```
 #systemctl start corosync.service
+```
 
-You can see this log in /var/log/messages when you succeed in starting corosync.
+>You can see this log in /var/log/messages when you succeed in starting corosync.
  Starting Corosync Cluster Engine (corosync): [  OK  ]
 
-###### Pacemaker (both nodes)
-Clear current settings if it exists.
+### Pacemaker (both nodes)
+- Clear current settings if it exists.
+```
 #rm -f /var/lib/pacemaker/cib/cib*
-
-###### Start pacemaker
+```
+### Start pacemaker
+```
 #systemctl start pacemaker.service
+```
 
-###### Start pcsd service
-#systemctl enable pcsd.service
-#systemctl start pcsd.service
+### Start pcsd service
+```
+#systemctl status pcsd.service
 
-###### Check status
+```
+
+### Check status
+```
 #crm_mon -Afr -1
-
-Stack: corosync
+```
+```
+Ｓｔａｃｋ： ｃｏｒｏｓｙｎｃ
 Current DC: node2 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
 Last updated: Mon May 29 19:30:29 2021
 Last change: Mon May 29 19:30:29 2021 by root via crm_attribute on node2
@@ -223,24 +287,24 @@ Last change: Mon May 29 19:30:29 2021 by root via crm_attribute on node2
 
 Online: [ node1 node2 ]
 
-Full list of resources:
+Ｆｕｌｌ　ｌｉｓｔ　ｏｆ　ｒｅｓｏｕｒｃｅｓ：
 
-Node Attributes:
-* Node node1:
-* Node node2:
+𝑵𝒐𝒅𝒆 𝑨𝒕𝒕𝒓𝒊𝒃𝒖𝒕𝒆𝒔:
+- Node node1:
+- Node node2:
 
-Migration summary:
-* Node node1:
-* Node node2:
+𝑴𝒊𝒈𝒓𝒂𝒕𝒊𝒐𝒏 𝒔𝒖𝒎𝒎𝒂𝒓𝒚:
+- Node node1:
+- Node node2:
+```
+</details>
 
+<details><summary><h2 align="Left">🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂) 🅵🅾🆁 🅿🅲🆂 🅲🅾🅼🅼🅰🅽🅳</h2></summary>
 
-###### Make configuration file(config.pcs) for pcs command.
+>In this sample configuration, "vip-master" means virtual IP1 and "vip-rep" means virtual IP2,and we use restart_on_promote="true" to explain operations simply.
+If you use false,you should start pacemaker on node1 only and laod configuration.After that you should copy data from node1 to node2 and start pacemaker on node2 to align  Timeline ID.
 
-In this sample configuration, "vip-master" means virtual IP1 and "vip-rep" means virtual IP2, 
-and we use restart_on_promote="true" to explain operations simply.
-If you use false, you should start pacemaker on node1 only and laod configuration.
-After that you should copy data from node1 to node2 and start pacemaker on node2 to
-align  Timeline ID.
+```
 
 pcs cluster cib pgsql_cfg
 
@@ -294,13 +358,16 @@ pcs -f pgsql_cfg constraint order promote msPostgresql then start master-group s
 pcs -f pgsql_cfg constraint order demote  msPostgresql then stop  master-group symmetrical=false score=0
 
 pcs cluster cib-push pgsql_cfg
+```
 
-###### Load configuration
+### Load configuration
 
+```
 #sh config.pcs
+```
 
-###### Check status again.
-
+### Check status again
+```
 #crm_mon -Afr -1
 Stack: corosync
 Current DC: node1 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
@@ -321,40 +388,37 @@ Full list of resources:
      vip-master (ocf::heartbeat:IPaddr2): Started node1
      vip-rep  (ocf::heartbeat:IPaddr2): Started node1
 
-Node Attributes:
-* Node node1:
+𝑵𝒐𝒅𝒆 𝑨𝒕𝒕𝒓𝒊𝒃𝒖𝒕𝒆𝒔:
+- Node node1:
     + master-pgsql                      : 1000      
     + pgsql-data-status                 : LATEST    
     + pgsql-master-baseline             : 0000000006000098
     + pgsql-status                      : PRI       
-* Node node2:
+- Node node2:
     + master-pgsql                      : 100       
     + pgsql-data-status                 : STREAMING|SYNC
     + pgsql-status                      : HS:sync   
 
-Migration Summary:
-* Node node2:
-* Node node1:
+𝑴𝒊𝒈𝒓𝒂𝒕𝒊𝒐𝒏 𝒔𝒖𝒎𝒎𝒂𝒓𝒚:
+ Node node2:
+ Node node1:
+```
+</deatils>
 
-###### Enable pacemaker
-#systemctl enable pacemaker.service
+<details><summary><h2 align="Left">🅾🅿🅴🆁🅰🆃🅸🅾🅽🆂</h2></summary>
+ <h2>𝙰𝚏𝚝𝚎𝚛 𝚏𝚊𝚒𝚕-𝚘𝚟𝚎𝚛</h2>
 
-###### Enable corosync
-#systemctl enable corosync.service
-
-##### Operations
-###### after fail-over
-
-###### Kill PostgreSQL process at node1 to occur fail-over.
+### Kill PostgreSQL process at node1 to occur fail-over
+```
 #killall -9 postgres 
-
-###### Check status
-
+```
+### Check status
+```
 #crm_mon -Afr -1
 Stack: corosync
 Current DC: node1 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
-Last updated: Sat May 29 21:05:13 2021
-Last change: Sat May 29 21:05:11 2021 by root via crm_attribute on node2
+Last updated: Sat May 29 21:05:09 2021
+Last change: Sat May 29 21:02:33 2021 by root via crm_attribute on node1
 
 2 nodes configured
 4 resource instances configured
@@ -364,34 +428,35 @@ Online: [ node1 node2 ]
 Full list of resources:
 
  Master/Slave Set: msPostgresql [pgsql]
-     Masters: [ node2 ]
+     Slaves: [ node2 ]
      Stopped: [ node1 ]
  Resource Group: master-group
-     vip-master	(ocf::heartbeat:IPaddr2):	Started node2
-     vip-rep	(ocf::heartbeat:IPaddr2):	Started node2
+     vip-master (ocf::heartbeat:IPaddr2): Stopped
+     vip-rep  (ocf::heartbeat:IPaddr2): Stopped
 
 Node Attributes:
-* Node node1:
-    + master-pgsql                    	: -INFINITY 
-    + pgsql-data-status               	: DISCONNECT
-    + pgsql-status                    	: STOP      
-* Node node2:
-    + master-pgsql                    	: 1000      
-    + pgsql-data-status               	: LATEST    
-    + pgsql-master-baseline           	: 0000000006017680
-    + pgsql-status                    	: PRI       
+- Node node1:
+    + master-pgsql                      : -INFINITY 
+    + pgsql-data-status                 : LATEST    
+    + pgsql-status                      : STOP      
+- Node node2:
+    + master-pgsql                      : 100       
+    + pgsql-data-status                 : STREAMING|SYNC
+    + pgsql-master-baseline             : 0000000006017680
+    + pgsql-status                      : HS:alone  
 
 Migration Summary:
-* Node node2:
-* Node node1:
+- Node node2:
+- Node node1:
    pgsql: migration-threshold=1 fail-count=1 last-failure='Sat May 29 21:05:07 2021'
 
 Failed Resource Actions:
-* pgsql_monitor_3000 on node1 'unknown error' (1): call=23, status=complete, exitreason='',
+- pgsql_monitor_3000 on node1 'unknown error' (1): call=23, status=complete, exitreason='',
     last-rc-change='Sat May 29 21:05:07 2021', queued=0ms, exec=0ms
-
-###### Recovery node1 as replica.
-Copy all data from node2 because the data of node1 may be inconsistent.
+```
+### Recovery node1 as replica
+>Copy all data from node2 because the data of node1 may be inconsistent.
+```
 
  ##### (at node1)
  #su - postgres
@@ -401,9 +466,12 @@ Copy all data from node2 because the data of node1 may be inconsistent.
  $ exit
  
  #pcs resource cleanup msPostgresql
+ 
+ ```
 
-###### Check status again.
- #crm_mon -Afr -1
+### Check status again
+```
+#crm_mon -Afr -1
 
 Stack: corosync
 Current DC: node2 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
@@ -425,56 +493,73 @@ Full list of resources:
      vip-rep  (ocf::heartbeat:IPaddr2): Started node2
 
 Node Attributes:
-* Node node1:
+- Node node1:
     + master-pgsql                      : 100       
     + pgsql-data-status                 : STREAMING|SYNC
     + pgsql-status                      : HS:sync   
-* Node node2:
+- Node node2:
     + master-pgsql                      : 1000      
     + pgsql-data-status                 : LATEST    
     + pgsql-master-baseline             : 000000000A000098
     + pgsql-status                      : PRI       
 
 Migration Summary:
-* Node node1:
-* Node node2:
+- Node node1:
+- Node node2:
 
-##### About node attributes
-The RA defines the following states as a node attribute value of Pacemaker. 
-attribute can be seen in "crm_mon -A". 
+```
+</details>
+<details><summary><h2 align="Left">🅰🅱🅾🆄🆃 🅽🅾🅳🅴 🅰🆃🆃🆁🅸🅱🆄🆃🅴🆂</h2></summary>
+ <h2>The RA defines the following states as a node attribute value of Pacemaker</h2>
+ 
+- Attribute can be seen in "crm_mon -A". 
+</details>
+<details><summary><h2 align="Left">🅿🅶🆂🆀🅻-🆂🆃🅰🆃🆄🆂</h2></summary>
 
-###### pgsql-status
-A present state of PostgreSQL is displayed by the attribute value to which PRI or either HS node is displayed. 
+- A present state of PostgreSQL is displayed by the attribute value to which PRI or either HS node is displayed.
 
-* STOP
-** PostgreSQL has stopped.
-* HS:alone
-** It works as HS but HS doesn't connect PRI
-* HS:connected
-** it works as HS, and connected with PRI but HS isn't normal state of the replication (Data has not caught up with PRI).
-* HS:async
-** It works as HS, and the state is async mode. When RA is used in the rep_mode=async, it is possible to be promoted to Master.
-* HS:sync
-** It works as HS, and the state is sync mode. It is possible to be promoted to Master for the rep_mode=sync.
-* PRI
-** It operates by PRI.
+```
+- 𝐒𝐓𝐎𝐏 = PostgreSQL has stopped.
+- 𝐇𝐒:𝐚𝐥𝐨𝐧𝐞 - It works as HS but HS doesn't connect PRI.
+- 𝐇𝐒:𝐜𝐨𝐧𝐧𝐞𝐜𝐭𝐞𝐝 - It works as HS,and connected with PRI but HS isn't normal state of the replication (Data has not caught up with PRI).
+- 𝐇𝐒:𝐚𝐬𝐲𝐧𝐜 - It works as HS, and the state is async mode. When RA is used in the rep_mode=async, it is possible to be promoted to Master.
+- 𝐇𝐒:𝐬𝐲𝐧𝐜 - It works as HS, and the state is sync mode. It is possible to be promoted to Master for the rep_mode=sync.
+- 𝐏𝐑𝐈 - It operates by PRI.
 
-###### pgsql-data-status
-The transitional state of data is displayed. This state remains after stopping pacemaker.
-When starting pacemaker next time, this state is used to judge whether my data is old or not.
+```
+</details>
 
-* DISCONNECT
-** Master changes other node state into DISCONNECT if Master can't detect connection of replication because of LAN failure or breakdown of replica and so on.
-* {state}|{sync_state} 
-** Master changes other node state into {state}|{sync_state} if Master detects connection of replication.
-** {state} and {sync_state} means state of replication which is retrieved using "select state and sync_state from pg_stat_replication" on Master.
-** For example, INIT, CATCHUP, and STREAMING are displayed in {state} and ASYNC, SYNC are displayed in {sync_state}
-* LATEST
-** It's displayed when it's Master.
+<details><summary><h2 align="Left">🅿🅶🆂🆀🅻-🅳🅰🆃🅰-🆂🆃🅰🆃🆄🆂</h2></summary>
 
-These states are the transitional state of final data, and it may be not consistent with the state of actual data.
-For instance, During PRI, the state is "LATEST". But the node is stopped or down, this state "LATEST" is maintained if Master doesn't exist in other nodes. It never changes to "DISCONNECT" for oneself.
-When other node newly is promoted, this new Master changes the state of old Master to "DISCONNECT". When any node can not become Master, this "LATEST" will be keeped.
+- The transitional state of data is displayed. This state remains after stopping pacemaker.
+- When starting pacemaker next time, this state is used to judge whether my data is old or not.
 
-###### pgsql-xlog-replay-loc
-There is no Master node, it is displayed. RA  decide to promote one node to Master comparing with the value of the last_replay_xlog_location or last_receive_xlog_replay_location among other node.
+```
+
+- 𝐃𝐈𝐒𝐂𝐎𝐍𝐍𝐄𝐂𝐓 - Master changes other node state into DISCONNECT if Master can't detect connection of replication because of LAN failure or breakdown of replica and so on.
+- {𝐬𝐭𝐚𝐭𝐞}|{𝐬𝐲𝐧𝐜_𝐬𝐭𝐚𝐭𝐞} - Master changes other node state into {state}|{sync_state} if Master detects connection of replication {state} and {sync_state} means state of replication which is retrieved using "select state and sync_state from pg_stat_replication" on Master.For example,  INIT, CATCHUP, and STREAMING are displayed in {state} and ASYNC, SYNC are displayed in {sync_state}
+- 𝐋𝐀𝐓𝐄𝐒𝐓 - It's displayed when it's Master.
+```
+- These states are the transitional state of final data, and it may be not consistent with the state of actual data.
+- For instance, During PRI, the state is "LATEST". But the node is stopped or down, this state "LATEST" is maintained if Master doesn't exist in other nodes. It never changes to "DISCONNECT" for oneself.
+- When other node newly is promoted, this new Master changes the state of old Master to "DISCONNECT". When any node can not become Master, this "LATEST" will be keeped.
+</details>
+<details><summary><h2 align="Left">🅿🅶🆂🆀🅻-🆇🅻🅾🅶-🆁🅴🅿🅻🅰🆈-🅻🅾🅲</h2></summary>
+
+- There is no Master node, it is displayed. RA  decide to promote one node to Master comparing with the value of the last_replay_xlog_location or last_receive_xlog_replay_location among other node.
+
+</details>
+
+<details><summary><h2 align="left">𝓓𝓸𝓬𝓾𝓶𝓮𝓷𝓽𝓮𝓭 𝓑𝔂</h2></summary>
+	
+|                              |                      |
+| :-------------------:|:------------------------------: |        
+ |*Name* | **Monika Verma** |  
+|*Org.* | ****Keen & Able computers Pvt Ltd****  |  
+| *Title*  | **Project Coordinator** |
+| *Date*  | **31st May 2021**     |
+|  *Signature (if any)* |     |   
+
+</details>
+
+### *Thank You*
