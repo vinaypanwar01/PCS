@@ -196,8 +196,7 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
 </details>
  
 	
-<details><summary><h2 align="Left">Verify Replication on node 1</h2></summary>
-### Confirm PostgreSQL replication success (node1 only)
+<details><summary><h2 align="Left">Confirm PostgreSQL replication success (node1 only)</h2></summary>
 
 ```
 #su - postgres
@@ -210,16 +209,18 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  | client_addr | sync_state|
  |192.168.2.2| sync |
  
- 
+</details>
+
 <details><summary><h2 align="Left">Stop Postgresql on both nodes</h2></summary>
-### Stop PostgreSQL (both nodes)
+
 ```
  $ pg_ctl -D /var/lib/pgsql/11/data stop
  $ exit
  ```
+</details>
 
 <details><summary><h2 align="Left">Configure & Start Corosync on both nodes</h2></summary>
-### Corosync (both nodes)
+
 ```
 Create /etc/corosync/corosync.conf
 quorum {
@@ -247,7 +248,9 @@ logging {
     to_syslog: yes
 }
 ```
+
 ### Start corosync
+
 ```
 #systemctl start corosync.service
 ```
@@ -255,23 +258,31 @@ logging {
 >You can see this log in /var/log/messages when you succeed in starting corosync.
  Starting Corosync Cluster Engine (corosync): [  OK  ]
 
+</details>
+	
 <details><summary><h2 align="Left">Start Pacemaker on both nodes</h2></summary>
-### Pacemaker (both nodes)
 - Clear current settings if it exists.
+
 ```
 #rm -f /var/lib/pacemaker/cib/cib*
 ```
+	
 ### Start pacemaker
+
 ```
 #systemctl start pacemaker.service
 ```
+
+</details>
 <details><summary><h2 align="Left">Start pcsd service on both nodes</h2></summary>
-### Start and enable pcsd service
+
 ```
 #systemctl enable pcsd.service
 #systemctl start pcsd.service
 
 ```
+
+</details>
 <details><summary><h2 align="Left">Check PCS status</h2></summary>
 ### Check status
 ```
