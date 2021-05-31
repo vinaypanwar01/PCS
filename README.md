@@ -125,6 +125,10 @@ Default value: OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
 ```
 
+</deatils>
+
+<details><summary><h2 align="Left">Configure Setup</h2></summary>
+
 ### PostgreSQL (node1 only)
 ```
 #su - postgres
@@ -159,19 +163,14 @@ host    all             all     192.168.0.0/16      trust
 host    replication     all     192.168.0.0/16      trust
 
 ```
-</deatils>
-
-<details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴1</h2></summary>
+#### Start Postgresql on node1
 
 ```
  #su - postgres
  $ pg_ctl -D /var/lib/pgsql/11/data start
 ```
 
-</details>
-
-<details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
-- 𝙲𝚘𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
+#### Co𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
 
 ```
  #su - postgres
@@ -199,9 +198,11 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
 	
 <details><summary><h2 align="Left">Verify Replication on node 1</h2></summary>
 ### Confirm PostgreSQL replication success (node1 only)
+
 ```
 #su - postgres
 ```
+
 - $ psql -c "select client_addr,sync_state from pg_stat_replication;"
 
 |                              |        |         
