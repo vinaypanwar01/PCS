@@ -162,14 +162,17 @@ host    replication     all     192.168.0.0/16      trust
 </deatils>
 
 <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴1</h2></summary>
+
 ```
  #su - postgres
  $ pg_ctl -D /var/lib/pgsql/11/data start
 ```
+
 </details>
 
 <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
 - 𝙲𝚘𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
+
 ```
  #su - postgres
  $ rm -rf /var/lib/pgsql/11/data/*
@@ -184,11 +187,13 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  restore_command = 'cp /var/lib/pgsql/11/pg_archive/%f %p'
  recovery_target_timeline = 'latest'
 ```
+
 ### Start PostgreSQL on node2
+
 ```
  $ pg_ctl -D /var/lib/pgsql/11/data/ start
- 
 ```
+
 </details>
  
 	
@@ -398,6 +403,15 @@ Full list of resources:
  Node node2:
  Node node1:
 ```
+</deatils>
+
+<details><summary><h2 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
+
+```
+ #systemctl enable corosync.service
+ #systemctl enable pacemaker.service
+```
+
 </deatils>
 
 <details><summary><h2 align="Left">🅾🅿🅴🆁🅰🆃🅸🅾🅽🆂</h2></summary>
