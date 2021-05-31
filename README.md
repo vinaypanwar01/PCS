@@ -207,7 +207,8 @@ Clear current settings if it exists.
 #systemctl start pacemaker.service
 
 ###### Start pcsd service
-#systemctl status pcsd.service
+#systemctl enable pcsd.service
+#systemctl start pcsd.service
 
 ###### Check status
 #crm_mon -Afr -1
@@ -334,6 +335,12 @@ Node Attributes:
 Migration Summary:
 * Node node2:
 * Node node1:
+
+###### Enable pacemaker
+#systemctl enable pacemaker.service
+
+###### Enable corosync
+#systemctl enable corosync.service
 
 ##### Operations
 ###### after fail-over
