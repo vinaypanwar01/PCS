@@ -127,7 +127,7 @@ for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
 
 </deatils>
 
-<details><summary><h2 align="Left">Configure Setup</h2></summary>
+<details><summary><h2 align="Left">Configure Postgresql Setup</h2></summary>
 
 ### PostgreSQL (node1 only)
 ```
@@ -274,6 +274,7 @@ logging {
 ```
 
 </details>
+
 <details><summary><h2 align="Left">Start pcsd service on both nodes</h2></summary>
 
 ```
@@ -283,11 +284,13 @@ logging {
 ```
 
 </details>
+
 <details><summary><h2 align="Left">Check PCS status</h2></summary>
-### Check status
+
 ```
 #crm_mon -Afr -1
 ```
+
 ```
 Ｓｔａｃｋ： ｃｏｒｏｓｙｎｃ
 Current DC: node2 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
@@ -309,6 +312,7 @@ Online: [ node1 node2 ]
 - Node node1:
 - Node node2:
 ```
+
 </details>
 
 <details><summary><h2 align="Left">🅼🅰🅺🅴 🅲🅾🅽🅵🅸🅶🆄🆁🅰🆃🅸🅾🅽 🅵🅸🅻🅴(🅲🅾🅽🅵🅸🅶.🅿🅲🆂)</h2></summary>
@@ -379,6 +383,7 @@ pcs cluster cib-push pgsql_cfg
 ```
 
 ### Check status again
+
 ```
 #crm_mon -Afr -1
 Stack: corosync
@@ -415,6 +420,7 @@ Full list of resources:
  Node node2:
  Node node1:
 ```
+
 </deatils>
 
 <details><summary><h2 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
