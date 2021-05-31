@@ -68,15 +68,15 @@ Use PostgreSQL 9.1 or later.
 
 ### OS (Centos 7) (both nodes)
 - disable selinux
-- edit /etc/selinux/config
+   - edit /etc/selinux/config
 - disable firewall(iptables)
-- systemctl stop firewalld.service
-- systemctl disable firewalld.service
+   - systemctl stop firewalld.service
+   - systemctl disable firewalld.service
 - set node name "node1" and "node2". 
-- edit /etc/sysconfig/network
+   - edit /etc/hosts
 - stop and disable NetworkManager and set up IPs as above.
-- systemctl stop NetworkManager.service 
-- systemctl disable NetworkManager.service 
+   - systemctl stop NetworkManager.service 
+   - systemctl disable NetworkManager.service 
 - edit /etc/sysconfig/network-scripts/ifcfg-ethX
 
 ### Configure Yum Repo
