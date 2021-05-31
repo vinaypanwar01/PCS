@@ -162,16 +162,14 @@ host    replication     all     192.168.0.0/16      trust
 </deatils>
 
 <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴1</h2></summary>
- 
 ### Start PostgreSQL on node1
 ```
 #su - postgres
 $ pg_ctl -D /var/lib/pgsql/11/data start
 ```
+</details>
 
 <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴2</h2></summary>
-### PostgreSQL (node2 only)
-
 - 𝙲𝚘𝚙𝚢 𝚍𝚊𝚝𝚊 𝚏𝚛𝚘𝚖 𝚗𝚘𝚍𝚎𝟷 𝚝𝚘 𝚗𝚘𝚍𝚎𝟸
 ```
 
@@ -187,14 +185,15 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  restore_command = 'cp /var/lib/pgsql/11/pg_archive/%f %p'
  recovery_target_timeline = 'latest'
  ```
- </details>
- 
-	
 ### Start PostgreSQL on node2
 ```
 $ pg_ctl -D /var/lib/pgsql/11/data/ start
  
 ```
+
+</details>
+ 
+	
 <details><summary><h2 align="Left">Verify Replication on node 1</h2></summary>
 ### Confirm PostgreSQL replication success (node1 only)
 ```
