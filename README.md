@@ -78,7 +78,7 @@ rpm -Uvh https://yum.postgresql.org/11/redhat/rhel-7-x86_64/pgdg-redhat-repo-lat
 /usr/pgsql-11/bin/postgresql-11-setup initdb
 
 ##### Replacement of pgsql RA (both nodes)
-#wget https://raw.github.com/ClusterLabs/resource-agents/a6f4ddf76cb4bbc1b3df4c9b6632a6351b63c19e/heartbeat/pgsql
+#wget https://raw.github.com/ClusterLabs/resource-agents/master/heartbeat/pgsql
 #cp pgsql /usr/lib/ocf/resource.d/heartbeat/
 #chmod 755 /usr/lib/ocf/resource.d/heartbeat/pgsql
 #vim /usr/lib/ocf/resource.d/heartbeat/pgsql
