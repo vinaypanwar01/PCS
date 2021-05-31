@@ -261,9 +261,10 @@ logging {
 #systemctl start pacemaker.service
 ```
 
-### Start pcsd service
+### Start and enable pcsd service
 ```
-#systemctl status pcsd.service
+#systemctl enable pcsd.service
+#systemctl start pcsd.service
 
 ```
 
