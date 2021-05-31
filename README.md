@@ -125,7 +125,7 @@ Default value: OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
 ```
 
-</deatils>
+</details>
 
 <details><summary><h2 align="Left">Configure Postgresql Setup</h2></summary>
 
@@ -421,16 +421,17 @@ Full list of resources:
  Node node1:
 ```
 
-</deatils>
+</details>
 
 <details><summary><h3 align="Left">Enable Pacemaker and Corosync Service</h2></summary>
 
 ```
  #systemctl enable corosync.service
  #systemctl enable pacemaker.service
+
 ```
 
-</deatils>
+</details>
 
 <details><summary><h2 align="Left">🅾🅿🅴🆁🅰🆃🅸🅾🅽🆂</h2></summary>
  <h2>𝙰𝚏𝚝𝚎𝚛 𝚏𝚊𝚒𝚕-𝚘𝚟𝚎𝚛</h2>
