@@ -163,8 +163,8 @@ host    replication     all     192.168.0.0/16      trust
 
 <details><summary><h2 align="Left">🅂🅃🄰🅁🅃 🄿🄾🅂🅃🄶🅁🄴🅂🅀🄻 🄾🄽 🄽🄾🄳🄴1</h2></summary>
 ```
-#su - postgres
-$ pg_ctl -D /var/lib/pgsql/11/data start
+ #su - postgres
+ $ pg_ctl -D /var/lib/pgsql/11/data start
 ```
 </details>
 
@@ -176,6 +176,7 @@ $ pg_ctl -D /var/lib/pgsql/11/data start
  $ pg_basebackup -h 192.168.2.1 -U postgres -D /var/lib/pgsql/11/data -X stream -P
  $ mkdir -m 700 /var/lib/pgsql/11/pg_archive
 ```
+
 ```
 Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  standby_mode = 'on'
@@ -185,7 +186,7 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
 ```
 ### Start PostgreSQL on node2
 ```
-$ pg_ctl -D /var/lib/pgsql/11/data/ start
+ $ pg_ctl -D /var/lib/pgsql/11/data/ start
  
 ```
 </details>
