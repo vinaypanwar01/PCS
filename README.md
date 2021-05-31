@@ -388,9 +388,9 @@ Copy all data from node2 because the data of node1 may be inconsistent.
 
  ##### (at node1)
  #su - postgres
- $ rm -rf /var/lib/pgsql/data/
- $ pg_basebackup -h 192.168.2.3 -U postgres -D /var/lib/pgsql/data -X stream -P
- $ rm /var/lib/pgsql/tmp/PGSQL.lock
+ $ rm -rf /var/lib/pgsql/11/data/
+ $ pg_basebackup -h 192.168.2.3 -U postgres -D /var/lib/pgsql/11/data -X stream -P
+ $ rm /var/lib/pgsql/11/tmp/PGSQL.lock
  $ exit
  
  #pcs resource cleanup msPostgresql
