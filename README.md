@@ -111,9 +111,9 @@ Use PostgreSQL 9.1 or later.
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
 	
 ```
-	
-```	
-###### with 
+		
+###### with
+```
 #Initialization:
 OCF_ROOT=/usr/lib/ocf
 : ${OCF_FUNCTIONS_DIR=${OCF_ROOT}/lib/heartbeat}
