@@ -353,8 +353,8 @@ Migration Summary:
 #crm_mon -Afr -1
 Stack: corosync
 Current DC: node1 (version 1.1.23-1.el7_9.1-9acf116022) - partition with quorum
-Last updated: Sat May 29 21:05:09 2021
-Last change: Sat May 29 21:02:33 2021 by root via crm_attribute on node1
+Last updated: Sat May 29 21:05:13 2021
+Last change: Sat May 29 21:05:11 2021 by root via crm_attribute on node2
 
 2 nodes configured
 4 resource instances configured
@@ -364,22 +364,22 @@ Online: [ node1 node2 ]
 Full list of resources:
 
  Master/Slave Set: msPostgresql [pgsql]
-     Slaves: [ node2 ]
+     Masters: [ node2 ]
      Stopped: [ node1 ]
  Resource Group: master-group
-     vip-master (ocf::heartbeat:IPaddr2): Stopped
-     vip-rep  (ocf::heartbeat:IPaddr2): Stopped
+     vip-master	(ocf::heartbeat:IPaddr2):	Started node2
+     vip-rep	(ocf::heartbeat:IPaddr2):	Started node2
 
 Node Attributes:
 * Node node1:
-    + master-pgsql                      : -INFINITY 
-    + pgsql-data-status                 : LATEST    
-    + pgsql-status                      : STOP      
+    + master-pgsql                    	: -INFINITY 
+    + pgsql-data-status               	: DISCONNECT
+    + pgsql-status                    	: STOP      
 * Node node2:
-    + master-pgsql                      : 100       
-    + pgsql-data-status                 : STREAMING|SYNC
-    + pgsql-master-baseline             : 0000000006017680
-    + pgsql-status                      : HS:alone  
+    + master-pgsql                    	: 1000      
+    + pgsql-data-status               	: LATEST    
+    + pgsql-master-baseline           	: 0000000006017680
+    + pgsql-status                    	: PRI       
 
 Migration Summary:
 * Node node2:
