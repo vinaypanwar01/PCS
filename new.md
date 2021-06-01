@@ -26,7 +26,7 @@
   </ul>  
 
 
-<details><summary><h2 align="Left">ℙ𝕣𝕖𝕣𝕖𝕢𝕦𝕚𝕤𝕚𝕥𝕖</h2></summary>
+<summary><h2 align="Left">ℙ𝕣𝕖𝕣𝕖𝕢𝕦𝕚𝕤𝕚𝕥𝕖</h2></summary>
 
 ### Software version
 ```
@@ -80,9 +80,8 @@ Use PostgreSQL 9.1 or later.
 - **restart_on_promote** - RA restarts PostgreSQL on promote instead of promote to prevent from increasing Timeline ID of PostgreSQL since HS can't connect PRI if Timeline ID is different. Default is false and you should copy data from PRI to align Timeline ID after promoting.
 </p>
 
-</details>
 
-<details><summary><h2 align="Left">𝕀𝕟𝕤𝕥𝕒𝕝𝕝𝕒𝕥𝕚𝕠𝕟</h2></summary>
+<summary><h2 align="Left">𝕀𝕟𝕤𝕥𝕒𝕝𝕝𝕒𝕥𝕚𝕠𝕟</h2></summary>
  
 <h2>𝙸𝚗 𝚝𝚑𝚒𝚜 𝚍𝚘𝚌𝚞𝚖𝚎𝚗𝚝𝚜, 𝚠𝚎 𝚞𝚜𝚎 𝙲𝚎𝚗𝚝𝚘𝚜 𝟽</h2>
 
@@ -145,9 +144,8 @@ Default value: OCF_RESKEY_pgdata_default=/var/lib/pgsql/data
 for Postgresql 11: OCF_RESKEY_pgdata_default=/var/lib/pgsql/11/data
 ```
 
-</details>
 
-<details><summary><h2 align="Left">ℂ𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕖 ℙ𝕠𝕤𝕥𝕘𝕣𝕖 𝕊ℚ𝕃 𝕊𝕖𝕥𝕦𝕡</h2></summary>
+<summary><h2 align="Left">ℂ𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕖 ℙ𝕠𝕤𝕥𝕘𝕣𝕖 𝕊ℚ𝕃 𝕊𝕖𝕥𝕦𝕡</h2></summary>
 
 ### PostgreSQL (node1 only)
 ```
@@ -234,9 +232,9 @@ Create /var/lib/pgsql/11/data/recovery.conf to confirm replication.
  $ pg_ctl -D /var/lib/pgsql/11/data stop
  $ exit
  ```
-</details>
 
-<details><summary><h2 align="Left">ℂ𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕖 & 𝕊𝕥𝕒𝕣𝕥 ℂ𝕠𝕣𝕠𝕤𝕪𝕟𝕔 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
+
+<summary><h2 align="Left">ℂ𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕖 & 𝕊𝕥𝕒𝕣𝕥 ℂ𝕠𝕣𝕠𝕤𝕪𝕟𝕔 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
 
 ```
 Create /etc/corosync/corosync.conf
@@ -275,9 +273,8 @@ logging {
 >You can see this log in /var/log/messages when you succeed in starting corosync.
  Starting Corosync Cluster Engine (corosync): [  OK  ]
 
-</details>
   
-<details><summary><h2 align="Left">𝕊𝕥𝕒𝕣𝕥 ℙ𝕒𝕔𝕖𝕞𝕒𝕜𝕖𝕣 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
+<summary><h2 align="Left">𝕊𝕥𝕒𝕣𝕥 ℙ𝕒𝕔𝕖𝕞𝕒𝕜𝕖𝕣 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
 - Clear current settings if it exists.
 
 ```
@@ -290,9 +287,8 @@ logging {
 #systemctl start pacemaker.service
 ```
 
-</details>
 
-<details><summary><h2 align="Left">𝕊𝕥𝕒𝕣𝕥 𝕡𝕔𝕤𝕕 𝕤𝕖𝕣𝕧𝕚𝕔𝕖 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
+<summary><h2 align="Left">𝕊𝕥𝕒𝕣𝕥 𝕡𝕔𝕤𝕕 𝕤𝕖𝕣𝕧𝕚𝕔𝕖 𝕠𝕟 𝕓𝕠𝕥𝕙 𝕟𝕠𝕕𝕖𝕤</h2></summary>
 
 ```
 #systemctl enable pcsd.service
@@ -300,9 +296,8 @@ logging {
 
 ```
 
-</details>
 
-<details><summary><h2 align="Left">ℂ𝕙𝕖𝕔𝕜 ℙℂ𝕊 𝕊𝕥𝕒𝕥𝕦𝕤 & 𝕄𝕒𝕜𝕖 𝕔𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕒𝕥𝕚𝕠𝕟 𝕗𝕚𝕝𝕖(𝕔𝕠𝕟𝕗𝕚𝕘.𝕡𝕔𝕤) 𝕗𝕠𝕣 ℙℂ𝕊 𝕔𝕠𝕞𝕞𝕒𝕟𝕕</h2></summary>
+<summary><h2 align="Left">ℂ𝕙𝕖𝕔𝕜 ℙℂ𝕊 𝕊𝕥𝕒𝕥𝕦𝕤 & 𝕄𝕒𝕜𝕖 𝕔𝕠𝕟𝕗𝕚𝕘𝕦𝕣𝕒𝕥𝕚𝕠𝕟 𝕗𝕚𝕝𝕖(𝕔𝕠𝕟𝕗𝕚𝕘.𝕡𝕔𝕤) 𝕗𝕠𝕣 ℙℂ𝕊 𝕔𝕠𝕞𝕞𝕒𝕟𝕕</h2></summary>
 
 ```
 #crm_mon -Afr -1
@@ -436,9 +431,8 @@ Full list of resources:
  Node node1:
 ```
 
-</details>
 
-<details><summary><h2 align="Left">𝔼𝕟𝕒𝕓𝕝𝕖 ℙ𝕒𝕔𝕖𝕞𝕒𝕜𝕖𝕣 𝕒𝕟𝕕 ℂ𝕠𝕣𝕠𝕤𝕪𝕟𝕔 𝕊𝕖𝕣𝕧𝕚𝕔𝕖</h2></summary>
+<summary><h2 align="Left">𝔼𝕟𝕒𝕓𝕝𝕖 ℙ𝕒𝕔𝕖𝕞𝕒𝕜𝕖𝕣 𝕒𝕟𝕕 ℂ𝕠𝕣𝕠𝕤𝕪𝕟𝕔 𝕊𝕖𝕣𝕧𝕚𝕔𝕖</h2></summary>
 
 ```
  #systemctl enable corosync.service
@@ -446,9 +440,8 @@ Full list of resources:
 
 ```
 
-</details>
 
-<details><summary><h2 align="Left">𝕆𝕡𝕖𝕣𝕒𝕥𝕚𝕠𝕟𝕤</h2></summary>
+<summary><h2 align="Left">𝕆𝕡𝕖𝕣𝕒𝕥𝕚𝕠𝕟𝕤</h2></summary>
  <h2>𝙰𝚏𝚝𝚎𝚛 𝚏𝚊𝚒𝚕-𝚘𝚟𝚎𝚛</h2>
 
 ### Kill PostgreSQL process at node1 to occur fail-over
@@ -551,13 +544,12 @@ Migration Summary:
 - Node node2:
 
 ```
-</details>
-<details><summary><h2 align="Left">𝔸𝕓𝕠𝕦𝕥 ℕ𝕠𝕕𝕖𝕤 & 𝔸𝕥𝕥𝕣𝕚𝕓𝕦𝕥𝕖𝕤</h2></summary>
+<summary><h2 align="Left">𝔸𝕓𝕠𝕦𝕥 ℕ𝕠𝕕𝕖𝕤 & 𝔸𝕥𝕥𝕣𝕚𝕓𝕦𝕥𝕖𝕤</h2></summary>
  <h2>The RA defines the following states as a node attribute value of Pacemaker</h2>
  
 - Attribute can be seen in "crm_mon -A". 
-</details>
-<details><summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃 𝕊𝕥𝕒𝕥𝕦𝕤</h2></summary>
+
+<summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃 𝕊𝕥𝕒𝕥𝕦𝕤</h2></summary>
 
 - A present state of PostgreSQL is displayed by the attribute value to which PRI or either HS node is displayed.
 
@@ -570,7 +562,6 @@ Migration Summary:
 - 𝐏𝐑𝐈 - It operates by PRI.
 
 ```
-</details>
 
 <details><summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃 𝔻𝕒𝕥𝕒 𝕊𝕥𝕒𝕥𝕦𝕤</h2></summary>
 
