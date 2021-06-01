@@ -582,15 +582,3 @@ Migration Summary:
 
 - There is no Master node, it is displayed. RA  decide to promote one node to Master comparing with the value of the last_replay_xlog_location or last_receive_xlog_replay_location among other node.
 
-
-<summary><h2 align="left">𝓓𝓸𝓬𝓾𝓶𝓮𝓷𝓽𝓮𝓭 𝓑𝔂</h2></summary>
-  
-|                              |                      |
-| :-------------------:|:------------------------------: |        
- |*Name* | **Monika Verma** |  
-|*Org.* | ****Keen & Able computers Pvt Ltd****  |  
-| *Title*  | **Project Coordinator** |
-| *Date*  | **31st May 2021**     |
-
-
-### *Thank You*
