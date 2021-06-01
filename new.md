@@ -7,7 +7,7 @@
 ## ʜᴏᴡ ᴛᴏ ɪɴꜱᴛᴀʟʟ ᴀ 2-ɴᴏᴅᴇ ᴘʀᴏᴍᴏᴛᴀʙʟᴇ (ꜱɪɴɢʟᴇ-ᴍᴀꜱᴛᴇʀ) ᴄʟᴜꜱᴛᴇʀ ᴏɴ ᴄᴇɴᴛᴏꜱ 7 ᴜꜱɪɴɢ ᴘᴏꜱᴛɢʀᴇꜱQʟ-11 ꜱʏɴᴄʜʀᴏɴᴏᴜꜱ ꜱᴛʀᴇᴀᴍɪɴɢ ʀᴇᴘʟɪᴄᴀᴛɪᴏɴ.
 ---
 
-<details open="open">
+
    <summary><h2 align="Left">Table of Contents</h2></summary>
   <ul>
       <li><a href="#Prerequisite">Prerequisite</a></li>
@@ -24,7 +24,6 @@
   <li><a href="#">PGSQL Data Status</a></li>
       <li><a href="#">PGSQL-xlog-replay-loc</a></li>      
   </ul>  
-</details>
 
 
 <details><summary><h2 align="Left">ℙ𝕣𝕖𝕣𝕖𝕢𝕦𝕚𝕤𝕚𝕥𝕖</h2></summary>
