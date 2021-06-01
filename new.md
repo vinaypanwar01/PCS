@@ -563,7 +563,7 @@ Migration Summary:
 
 ```
 
-<details><summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃 𝔻𝕒𝕥𝕒 𝕊𝕥𝕒𝕥𝕦𝕤</h2></summary>
+<summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃 𝔻𝕒𝕥𝕒 𝕊𝕥𝕒𝕥𝕦𝕤</h2></summary>
 
 - The transitional state of data is displayed. This state remains after stopping pacemaker.
 - When starting pacemaker next time, this state is used to judge whether my data is old or not.
@@ -577,14 +577,13 @@ Migration Summary:
 - These states are the transitional state of final data, and it may be not consistent with the state of actual data.
 - For instance, During PRI, the state is "LATEST". But the node is stopped or down, this state "LATEST" is maintained if Master doesn't exist in other nodes. It never changes to "DISCONNECT" for oneself.
 - When other node newly is promoted, this new Master changes the state of old Master to "DISCONNECT". When any node can not become Master, this "LATEST" will be keeped.
-</details>
-<details><summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃-𝕩𝕝𝕠𝕘-𝕣𝕖𝕡𝕝𝕒𝕪-𝕝𝕠𝕔</h2></summary>
+
+<summary><h2 align="Left">ℙ𝔾𝕊ℚ𝕃-𝕩𝕝𝕠𝕘-𝕣𝕖𝕡𝕝𝕒𝕪-𝕝𝕠𝕔</h2></summary>
 
 - There is no Master node, it is displayed. RA  decide to promote one node to Master comparing with the value of the last_replay_xlog_location or last_receive_xlog_replay_location among other node.
 
-</details>
 
-<details><summary><h2 align="left">𝓓𝓸𝓬𝓾𝓶𝓮𝓷𝓽𝓮𝓭 𝓑𝔂</h2></summary>
+<summary><h2 align="left">𝓓𝓸𝓬𝓾𝓶𝓮𝓷𝓽𝓮𝓭 𝓑𝔂</h2></summary>
   
 |                              |                      |
 | :-------------------:|:------------------------------: |        
@@ -593,6 +592,5 @@ Migration Summary:
 | *Title*  | **Project Coordinator** |
 | *Date*  | **31st May 2021**     |
 
-</details>
 
 ### *Thank You*
