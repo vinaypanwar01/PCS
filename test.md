@@ -59,15 +59,17 @@ ls -ltrh /var/lib/awx/report/v3/<hostname>.html
 
 #### Report Format
 ```
-Policies	Security Level
-2.1.1 Web server type and version disclosure	Level1
-2.1.2 Trace method enable on the remote server	Level1
-2.1.3 Check if XSS Protection enabled or not to avoid Cross-site Scripting	Level1
-2.1.4 Check Configure SSL and Cipher Suites	Level1
-2.1.5 Privileged user account	Level1
-2.1.6 Verifiy if Certain Modules are enabled in nginx modules	Level1
-2.1.7 Check Nginx Logging Parameters & format	Level1
-2.1.8 Check if Unwanted HTTP methods are disabled	Level1
-2.1.9 Check if selected module is enabled	Level1
-2.1.10 Check Server version leakage in nginx	Level1
-2.1.11 Server name comes in response header in nginx	Level1
+| Policies                                                                   | Security Level |
+|----------------------------------------------------------------------------|----------------|
+| 2.1.1 Web server type and version disclosure                               | Level1         |
+| 2.1.2 Trace method enable on the remote server                             | Level1         |
+| 2.1.3 Check if XSS Protection enabled or not to avoid Cross-site Scripting | Level1         |
+| 2.1.4 Check Configure SSL and Cipher Suites                                | Level1         |
+| 2.1.5 Privileged user account                                              | Level1         |
+| 2.1.6 Verifiy if Certain Modules are enabled in nginx modules              | Level1         |
+| 2.1.7 Check Nginx Logging Parameters & format                              | Level1         |
+| 2.1.8 Check if Unwanted HTTP methods are disabled                          | Level1         |
+| 2.1.9 Check if selected module is enabled                                  | Level1         |
+| 2.1.10 Check Server version leakage in nginx                               | Level1         |
+| 2.1.11 Server name comes in response header in nginx                       | Level1         |
+```
