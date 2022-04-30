@@ -73,3 +73,4 @@ ls -ltrh /var/lib/awx/report/v3/<hostname>.html
 | 2.1.10 Check Server version leakage in nginx                               | Level1         |
 | 2.1.11 Server name comes in response header in nginx                       | Level1         |
 ```
+
